@@ -15,6 +15,7 @@ move-zookeeper-dist-conf:
 move-zookeeper-dist-from-conf:
   cmd.run:
     - name: mv {{ zk.real_config }}/conf/* {{ zk.real_config }}/
+    - unless: test -L {{ zk.real_config }}/conf/*
     - require:
       - cmd: move-zookeeper-dist-conf
 
