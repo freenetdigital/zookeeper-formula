@@ -7,7 +7,7 @@ include:
 
 move-zookeeper-dist-conf:
   cmd.run:
-    - name: mv {{ zk.real_home }}/conf {{ zk.real_config }}
+    - name: mv {{ zk.real_home }}/conf/* {{ zk.real_config }}
     - unless: test -L {{ zk.real_home }}/conf
     - require:
       - file: /etc/zookeeper
