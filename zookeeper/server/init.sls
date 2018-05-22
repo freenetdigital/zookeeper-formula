@@ -65,6 +65,17 @@ zookeeper-env.sh:
       max_heap_size: {{ zk.max_heap_size }}
       max_perm_size: {{ zk.max_perm_size }}
 
+{%- if salt['pillar.get']('zookeeper:config:jmx_agent') %}
+jmx_agent.yaml:
+  file.serialize:
+    - name: {{ zk.real_config }}/jmx_agent.yaml
+    - dataset_pillar: zookeeper:config:jmx_agent
+    - user: root
+    - group: root
+    - mode: 755
+    - formatter: yaml
+{%- endif %}
+
 zookeeper-service:
   {%- if grains.get('systemd') %}
   # provision systemd service unit
