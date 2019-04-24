@@ -14,7 +14,6 @@ zk-directories:
     - mode: 755
     - makedirs: True
     - names:
-      - /var/run/zookeeper
       - /var/lib/zookeeper
       - /var/log/zookeeper
 
