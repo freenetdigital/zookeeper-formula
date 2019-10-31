@@ -6,13 +6,27 @@
 {%- set java_home         = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 
 # these are global - hence pillar-only
+#up until version 3.4. the package was named 'zookeeper-version.tar', since 3.5 it is 'apache-zookeeper-<version>-bin.tar.gz'
+{%- set package_schema    = p.get('package_schema', 'old') %}
+
 {%- set uid               = p.get('uid', '6030') %}
 {%- set userhome          = p.get('userhome', '/home/zookeeper') %}
 {%- set prefix            = p.get('prefix', '/usr/lib') %}
 
 {%- set version           = g.get('version', p.get('version', '3.4.6')) %}
+
+{%- if package_schema == 'old' %}
 {%- set version_name      = 'zookeeper-' + version %}
+{%- else %}
+{%- set version_name      = 'apache-zookeeper-' + version %}
+{%- endif %}
+
+{% if package_schema == 'old' %}
+{%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/' + version_name + '.tar.gz' %}
+{% else %}
 {%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/apache-' + version_name + '-bin.tar.gz' %}
+{%- endif %}
+
 {%- set source_url        = g.get('source_url', p.get('source_url', default_url)) %}
 {%- set default_md5s = {
   "3.4.6": "971c379ba65714fd25dc5fe8f14e9ad1",
@@ -20,8 +34,10 @@
   "3.4.8": "6bdddcd5179e9c259ef2bf4be2158d18",
   "3.4.9": "3e8506075212c2d41030d874fcc9dcd2",
   "3.4.10": "e4cf1b1593ca870bf1c7a75188f09678"
+  "3.5.6": "cc6a1d11129e8330141b756625bfdba0"
   }
 %}
+
 
 {%- set source_md5       = p.get('source_md5', default_md5s.get(version, '00000000000000000000000000000000')) %}
 
@@ -59,8 +75,15 @@
 
 {%- set alt_config           = salt['grains.get']('zookeeper:config:directory', '/etc/zookeeper/conf') %}
 {%- set real_config          = alt_config + '-' + version %}
+
 {%- set alt_home             = prefix + '/zookeeper' %}
-{%- set real_home            = alt_home + '-' + version %}
+
+{% if package_schema is 'old' %}
+{%- set real_home            = prefix + '/zookeeper + '-' + version %}
+{% elif package_schema is 'new' %}
+{%- set real_home            = prefix + '/apache-zookeeper + '-' + version + '-bin' %}
+{% endif %}
+
 {%- set real_config_src      = real_home + '/conf' %}
 {%- set real_config_dist     = alt_config + '.dist' %}
 
