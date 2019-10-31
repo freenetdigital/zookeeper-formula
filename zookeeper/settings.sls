@@ -15,17 +15,17 @@
 
 {%- set version           = g.get('version', p.get('version', '3.4.6')) %}
 
-{%- if package_schema == 'old' %}
 {%- set version_name      = 'zookeeper-' + version %}
+
+{%- if package_schema == 'old' %}
+	{%- set package_name = version_name + '.tar.gz' %}
+	{%- set real_home    = prefix + version_name %}
 {%- else %}
-{%- set version_name      = 'apache-zookeeper-' + version %}
+	{%- set package_name  = 'apache-' + version_name + '-bin.tar.gz' %}
+	{%- set real_home    = prefix + 'apache-' + version_name  + '-bin' %}
 {%- endif %}
 
-{% if package_schema == 'old' %}
-{%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/' + version_name + '.tar.gz' %}
-{% else %}
-{%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/apache-' + version_name + '-bin.tar.gz' %}
-{%- endif %}
+{%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/' + package_name %}
 
 {%- set source_url        = g.get('source_url', p.get('source_url', default_url)) %}
 {%- set default_md5s = {
@@ -77,12 +77,6 @@
 {%- set real_config          = alt_config + '-' + version %}
 
 {%- set alt_home             = prefix + '/zookeeper' %}
-
-{% if package_schema == 'old' %}
-{%- set real_home            = prefix + '/zookeeper-' + version %}
-{% else %}
-{%- set real_home            = prefix + '/apache-zookeeper-' + version + '-bin' %}
-{% endif %}
 
 {%- set real_config_src      = real_home + '/conf' %}
 {%- set real_config_dist     = alt_config + '.dist' %}
