@@ -19,10 +19,10 @@
 
 {%- if package_schema == 'old' %}
 	{%- set package_name = version_name + '.tar.gz' %}
-	{%- set real_home    = prefix + version_name %}
+	{%- set real_home    = prefix + '/' + version_name %}
 {%- else %}
 	{%- set package_name  = 'apache-' + version_name + '-bin.tar.gz' %}
-	{%- set real_home    = prefix + 'apache-' + version_name  + '-bin' %}
+	{%- set real_home    = prefix + '/' + 'apache-' + version_name  + '-bin' %}
 {%- endif %}
 
 {%- set default_url       = 'http://apache.osuosl.org/zookeeper/' + version_name + '/' + package_name %}
