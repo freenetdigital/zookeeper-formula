@@ -81,7 +81,7 @@
 {% if package_schema == 'old' %}
 {%- set real_home            = prefix + '/zookeeper + '-' + version %}
 {% else %}
-{%- set real_home            = prefix + '/apache-zookeeper + '-' + version + '-bin' %}
+{%- set real_home            = prefix + '/apache-zookeeper-' + version + '-bin' %}
 {% endif %}
 
 {%- set real_config_src      = real_home + '/conf' %}
