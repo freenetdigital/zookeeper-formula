@@ -79,7 +79,7 @@
 {%- set alt_home             = prefix + '/zookeeper' %}
 
 {% if package_schema == 'old' %}
-{%- set real_home            = prefix + '/zookeeper + '-' + version %}
+{%- set real_home            = prefix + '/zookeeper-' + version %}
 {% else %}
 {%- set real_home            = prefix + '/apache-zookeeper-' + version + '-bin' %}
 {% endif %}
