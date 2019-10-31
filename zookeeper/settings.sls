@@ -80,7 +80,7 @@
 
 {% if package_schema == 'old' %}
 {%- set real_home            = prefix + '/zookeeper + '-' + version %}
-{% elif package_schema == 'new' %}
+{% else %}
 {%- set real_home            = prefix + '/apache-zookeeper + '-' + version + '-bin' %}
 {% endif %}
 
