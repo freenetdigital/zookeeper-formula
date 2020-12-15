@@ -127,10 +127,11 @@
 
 {%- for node in zookeeper_nodes %}
   {%- set node_id = loop.index %}
-  {%- set zookeeper_with_id = {"id": node_id, "address": node.encode('ascii') | string() } %}
+  {%- set node_encoded =  node.encode('ascii') | string() %}
+  {%- set zookeeper_with_id = {"id": node_id, "address": node_encoded } %}
   {%- do zookeepers_with_ids.append(zookeeper_with_id) %}
-  {%- do connection_string.append( node.encode('ascii') | string() + ':' + port | string() ) %}
-  {%- do zookeepers.append( node.encode('ascii') | string() ) %}
+  {%- do connection_string.append( node_encoded + ':' + port | string() ) %}
+  {%- do zookeepers.append( node_encoded ) %}
   {%- if not myid_dist and node in minion_ids %}
     {%- do myid_dist.append(node_id) %}
   {%- endif %}
